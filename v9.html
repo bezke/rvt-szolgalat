@@ -224,13 +224,12 @@
     <div class="modal fade" id="colBatchModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-primary text-white"><h5 class="modal-title">Napi Csoportos</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="colBatchDay"><label class="fw-bold mb-2">Mit rögzítsünk mindenkinek?</label><div class="row g-2 mb-3"><div class="col-md-5"><select class="form-select" id="colBatchType" onchange="toggleColBatchTime()"><option value="WORK">Szolgálat</option><option value="X">Szabadság</option><option value="PN">Pihenőnap</option><option value="PI">Pihenőidő</option><option value="TM">Megváltás</option></select></div><div class="col-md-7" id="colBatchTimeDiv"><div class="input-group"><input type="time" class="form-control" id="colBatchStart" value="07:00"><span class="input-group-text">-</span><input type="time" class="form-control" id="colBatchEnd" value="15:30"></div></div></div><button class="btn btn-primary w-100" onclick="saveColBatch()">MINDENKI FRISSÍTÉSE</button></div></div></div></div>
     <div class="modal fade" id="printModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-dark text-white"><h5 class="modal-title">Nyomtatás</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="d-flex justify-content-between mb-2"><span>Kik?</span><button class="btn btn-sm btn-outline-secondary" onclick="toggleAllPrint(true)">Összes</button></div><div class="list-group" id="printUserList"></div></div><div class="modal-footer"><button type="button" class="btn btn-primary" onclick="executePrint()">NYOMTATÁS</button></div></div></div></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="config.local.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // ==========================================
         // CONFIGURÁCIÓ (JSONBin.io)
         // A konfigurációt a config.local.js fájl tölti be.
         // ==========================================
-        let CLOUD_CONFIG = {}; // Javítás: "let" a "const" helyett, hogy a config.local.js felülírhassa
 
         // --- DATA STATE ---
         let users = [
@@ -277,7 +276,6 @@
                         if(data.db) db = data.db;
                         if(data.configs) configs = data.configs;
                     } else {
-                        // Ha a válasz üres, a program folytatja az alapértelmezett beállításokkal (users, db, configs)
                         console.warn("Cloud response contained no data (bin might be empty or key is invalid). Initializing with local data.");
                     }
 
@@ -285,8 +283,6 @@
                     throw new Error(`Cloud load failed with status: ${response.status}`);
                 }
             } catch (error) {
-                // Ezt a hibát kapta korábban: TypeError: Cannot read properties of undefined (reading 'users')
-                // A mostani javítás után már csak hálózati/szerverhiba maradhat itt.
                 alert("Hiba a felhő kapcsolatban: " + error);
             } finally {
                 if(showLoadingIndicator) showLoading(false);
@@ -643,6 +639,5 @@
             setTimeout(() => { window.print(); setTimeout(()=>rows.forEach(r=>r.classList.remove("print-hidden-row")),500); }, 500);
         }
     </script>
-    <script src="config.local.js"></script>
 </body>
 </html>
